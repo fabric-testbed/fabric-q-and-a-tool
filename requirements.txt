@@ -1,0 +1,38 @@
+anaconda-anon-usage @ file:///croot/anaconda-anon-usage_1710965083430/work
+annotated-types==0.7.0
+archspec @ file:///croot/archspec_1709217642129/work
+boltons @ file:///work/perseverance-python-buildout/croot/boltons_1698850806582/work
+Brotli @ file:///croot/brotli-split_1714483167984/work
+certifi @ file:///croot/certifi_1720453493572/work/certifi
+cffi @ file:///croot/cffi_1714483162274/work
+charset-normalizer @ file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
+conda @ file:///croot/conda_1722004615129/work
+conda-content-trust @ file:///croot/conda-content-trust_1714483161628/work
+conda-libmamba-solver @ file:///croot/conda-libmamba-solver_1706733287605/work/src
+conda-package-handling @ file:///croot/conda-package-handling_1718138280719/work
+conda_package_streaming @ file:///croot/conda-package-streaming_1718136084241/work
+cryptography @ file:///croot/cryptography_1714660675074/work
+distro @ file:///croot/distro_1714488260977/work
+frozendict @ file:///croot/frozendict_1713194831395/work
+idna @ file:///croot/idna_1714398854369/work
+jsonpatch @ file:///croot/jsonpatch_1714483236687/work
+jsonpointer==2.1
+libmambapy @ file:///croot/mamba-split_1714483363970/work/libmambapy
+menuinst @ file:///croot/menuinst_1718132541553/work
+packaging @ file:///croot/packaging_1710807405298/work
+platformdirs @ file:///work/perseverance-python-buildout/croot/platformdirs_1701732622973/work
+pluggy @ file:///work/perseverance-python-buildout/croot/pluggy_1698805838627/work
+pycosat @ file:///croot/pycosat_1714510610431/work
+pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
+pydantic==2.8.2
+pydantic_core==2.20.1
+PySocks @ file:///work/perseverance-python-buildout/croot/pysocks_1698845406864/work
+requests @ file:///croot/requests_1716902838498/work
+ruamel.yaml @ file:///work/perseverance-python-buildout/croot/ruamel.yaml_1698858105915/work
+setuptools==69.5.1
+tqdm @ file:///croot/tqdm_1716395940472/work
+truststore @ file:///work/perseverance-python-buildout/croot/truststore_1701735331097/work
+typing_extensions==4.12.2
+urllib3 @ file:///croot/urllib3_1718912643176/work
+wheel==0.43.0
+zstandard @ file:///croot/zstandard_1714677663777/work
