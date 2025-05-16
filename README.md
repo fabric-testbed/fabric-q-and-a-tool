@@ -34,3 +34,7 @@ openai_key = <api key>
 jupyter lab [--ip 0.0.0.0]
 ```
 
+
+## Python Version (Tested)
+3.12
+
