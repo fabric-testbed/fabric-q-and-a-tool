@@ -1,0 +1,25 @@
+name: "GPT-4o - QA Tool"
+description: "Test with GPT-4o (full model, not mini)"
+
+rag_config:
+  vectorstore:
+    type: "chroma"
+    path: "../../data/vectordbs/qa_tool/Cleaned_DB"
+    embedding_model: "all-mpnet-base-v2"
+
+  llm:
+    provider: "openai"
+    model: "gpt-4o"
+    temperature: 0.2
+    api_key_env: "OPEN_AI_SECRET"
+
+  prompt:
+    template: "${QA_PROMPT}"
+
+  retrieval:
+    initial_k: 20
+    rerank_top_n: 6
+
+metadata:
+  tool_type: "qa"
+  tags: ["openai", "gpt4o", "experimental"]

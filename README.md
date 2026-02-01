@@ -1,3 +1,7 @@
+## About this repo
+
+This repo has been forked from https://github.com/jsk04/fabric-ai-tool-deployment. This is the code that is currently being used for deployment.
+
 ## FABRIC Q&A Tool 
 Welcome to FABRIC's Q&A tool repository! This repository contains the application files for FABRIC's production Q&A tool. Check out the tool here: https://portal.fabric-testbed.net
 
@@ -11,7 +15,7 @@ fabric-ai-tool-deployment/
 ├── app.py                  # Flask application entry point
 ├── config.py               # Loads environment variables & global config
 ├── .env                    # Secrets & environment configuration
-├── requirements.txt        # Python dependencies
+├── pyproject.toml          # Python dependencies and project config
 ├── utils/                  # Utility modules
 │   ├── logging_setup.py    # Centralized logging configuration
 │   └── helpers/            # Helper functions
@@ -20,6 +24,18 @@ fabric-ai-tool-deployment/
 │       ├── print_helpers.py            # format output
 │       ├── rerank_helpers.py           # help in reranking step
 │       └── validate_api_call.py        # validate API call
+├── notebooks/              # Development notebooks for VectorDB creation
+│   ├── README.md           # Detailed notebook documentation
+│   ├── 01_data_preprocessing/      # Clean CSV/PDF data
+│   ├── 02_vectordb_creation/       # Build ChromaDB databases
+│   ├── 03_analysis/                # Evaluate retrieval quality
+│   └── 04_testing/                 # Test RAG pipeline end-to-end
+├── data/                   # Local data directory (gitignored)
+│   ├── raw/                # Original CSV, PDF source files
+│   ├── processed/          # Cleaned data ready for embedding
+│   └── vectordbs/          # Generated ChromaDB databases
+│       ├── qa_tool/        # Vector DB for Q&A tool
+│       └── code_gen/       # Vector DB for Code Generation tool
 └── README.md
 ```
 
@@ -33,8 +49,8 @@ FLASK_SECRET_KEY=<flask-secret-key>
 OPEN_AI_SECRET=<openai-secret-key>
 
 # Vector Databases for RAG
-QA_DB_FILE=<location of vectorsotre for QA tool>
-CG_DB_FILE=<location of vectorsotre for CG tool>
+QA_DB_FILE=./data/vectordbs/qa_tool/
+CG_DB_FILE=./data/vectordbs/code_gen/
 
 # LLMs 
 QA_MODEL=<LLM for QA tool>
@@ -64,4 +80,23 @@ PORT=<port-number>
 
 ### Important Notes
 - The code makes use of the sentence-transformer module to embed and compare sentences. This requires a GPU, so ensure you're running the app on GPU
-- Currently, the formatting on the responses assumes the model is gpt-4o-mini, so change the formatting accordingly when working other models 
+- Currently, the formatting on the responses assumes the model is gpt-4o-mini, so change the formatting accordingly when working other models
+
+## Creating/Updating Vector Databases
+
+The vector databases used by the Q&A and Code Generation tools are created using Jupyter notebooks in the `notebooks/` directory.
+
+### Quick Start
+1. Place your raw data files (CSV, PDF) in `data/raw/`
+2. Follow the numbered notebook workflow:
+   - `01_data_preprocessing/` - Clean and prepare data
+   - `02_vectordb_creation/` - Build ChromaDB databases
+   - `03_analysis/` - Validate retrieval quality
+   - `04_testing/` - Test RAG pipeline end-to-end
+3. Update `.env` to point to the new databases:
+   ```bash
+   QA_DB_FILE=./data/vectordbs/qa_tool/
+   CG_DB_FILE=./data/vectordbs/code_gen/
+   ```
+
+For detailed instructions, see [notebooks/README.md](notebooks/README.md). 

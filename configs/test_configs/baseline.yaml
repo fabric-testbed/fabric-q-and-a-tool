@@ -1,0 +1,25 @@
+name: "Production Baseline - QA Tool"
+description: "Current production configuration for Q&A tool"
+
+rag_config:
+  vectorstore:
+    type: "chroma"
+    path: "../../data/vectordbs/qa_tool/Cleaned_DB"
+    embedding_model: "all-mpnet-base-v2"
+
+  llm:
+    provider: "openai"
+    model: "gpt-4o-mini"
+    temperature: 0.2
+    api_key_env: "OPEN_AI_SECRET"
+
+  prompt:
+    template: "${QA_PROMPT}"
+
+  retrieval:
+    initial_k: 20
+    rerank_top_n: 6
+
+metadata:
+  tool_type: "qa"
+  tags: ["production", "baseline"]

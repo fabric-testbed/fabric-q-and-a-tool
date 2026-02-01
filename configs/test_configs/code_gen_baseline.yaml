@@ -1,0 +1,25 @@
+name: "Production Baseline - Code Generation Tool"
+description: "Current production configuration for Code Generation tool"
+
+rag_config:
+  vectorstore:
+    type: "chroma"
+    path: "../../data/vectordbs/code_gen/"
+    embedding_model: "all-mpnet-base-v2"
+
+  llm:
+    provider: "openai"
+    model: "gpt-4o-mini"
+    temperature: 0
+    api_key_env: "OPEN_AI_SECRET"
+
+  prompt:
+    template: "${CG_PROMPT}"
+
+  retrieval:
+    initial_k: 20
+    rerank_top_n: 4
+
+metadata:
+  tool_type: "code_generation"
+  tags: ["production", "baseline"]

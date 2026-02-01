@@ -1,0 +1,36 @@
+[project]
+name = "fabric-ai-tool-deployment"
+version = "0.1.0"
+description = "Depoloyed version of FABRIC Q&A tool"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "beautifulsoup4>=4.14.3",
+    "chromadb>=1.4.0",
+    "flask>=3.1.2",
+    "ipykernel>=7.1.0",
+    "langchain>=1.2.1",
+    "langchain-chroma>=1.1.0",
+    "langchain-community>=0.4.1",
+    "langchain-core>=1.2.6",
+    "langchain-huggingface>=1.2.0",
+    "langchain-ollama>=1.0.1",
+    "langchain-openai>=1.1.7",
+    "langgraph>=1.0.5",
+    "nbformat>=5.10.4",
+    "openai>=2.14.0",
+    "pandas>=2.3.3",
+    "pip>=25.3",
+    "sentence-transformers>=5.2.0",
+    "torch>=2.9.1",
+    "transformers>=4.57.3",
+]
+
+[project.optional-dependencies]
+# Install with: uv sync --extra cuda
+# For Grace Hopper or other CUDA-enabled servers
+cuda = [
+    "torch>=2.9.1",
+    "torchvision",
+    "torchaudio",
+]

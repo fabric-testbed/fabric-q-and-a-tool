@@ -1,6 +1,4 @@
 from dotenv import load_dotenv
-from typing_extensions import List, TypedDict
-from langchain_core.documents import Document
 import os
 
 load_dotenv()
@@ -32,11 +30,3 @@ CG_DOCS = 4
 
 QA_TEMP = 0.2
 CG_TEMP = 0
-
-# ----------------------------------------------------------------------------------------------------- #
-# ------------------------------------------ State Definition ----------------------------------------- #
-# ----------------------------------------------------------------------------------------------------- #
-class State(TypedDict):
-    question: str
-    context: List[Document]
-    answer: str

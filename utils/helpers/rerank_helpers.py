@@ -8,7 +8,7 @@ logger = get_logger(__name__)
 
 def calculate_document_scores(pairs: tuple) -> list | float:
     """
-    Calculates the scores of each document retreived from the vectostore
+    Calculates the scores of each document retrieved from the vectorstore
     Arguments: 
         - paris: tuple containing user query and the content of the document
     Returns: 

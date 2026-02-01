@@ -1,0 +1,60 @@
+name: "Number of Docs Ablation - 2 vs 4 vs 6"
+description: "Compare different numbers of context documents after reranking"
+
+comparison_mode: true
+
+configurations:
+  - name: "2_docs"
+    rag_config:
+      vectorstore:
+        type: "chroma"
+        path: "../../data/vectordbs/qa_tool/Cleaned_DB"
+        embedding_model: "all-mpnet-base-v2"
+      llm:
+        provider: "openai"
+        model: "gpt-4o-mini"
+        temperature: 0.2
+        api_key_env: "OPEN_AI_SECRET"
+      prompt:
+        template: "${QA_PROMPT}"
+      retrieval:
+        initial_k: 20
+        rerank_top_n: 2
+
+  - name: "4_docs"
+    rag_config:
+      vectorstore:
+        type: "chroma"
+        path: "../../data/vectordbs/qa_tool/Cleaned_DB"
+        embedding_model: "all-mpnet-base-v2"
+      llm:
+        provider: "openai"
+        model: "gpt-4o-mini"
+        temperature: 0.2
+        api_key_env: "OPEN_AI_SECRET"
+      prompt:
+        template: "${QA_PROMPT}"
+      retrieval:
+        initial_k: 20
+        rerank_top_n: 4
+
+  - name: "6_docs (current)"
+    rag_config:
+      vectorstore:
+        type: "chroma"
+        path: "../../data/vectordbs/qa_tool/Cleaned_DB"
+        embedding_model: "all-mpnet-base-v2"
+      llm:
+        provider: "openai"
+        model: "gpt-4o-mini"
+        temperature: 0.2
+        api_key_env: "OPEN_AI_SECRET"
+      prompt:
+        template: "${QA_PROMPT}"
+      retrieval:
+        initial_k: 20
+        rerank_top_n: 6
+
+metadata:
+  tool_type: "qa"
+  tags: ["ablation", "hyperparameter"]

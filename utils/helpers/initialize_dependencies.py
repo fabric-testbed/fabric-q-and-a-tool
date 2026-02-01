@@ -31,13 +31,13 @@ def initialize_model(model:str, temp: float):
 
     return llm
 
-def initialize_retreiver(db_loc: str):
+def initialize_retriever(db_loc: str):
     """
-    Initialize the retreiver with the given vectostore
+    Initialize the retriever with the given vectorstore
     Arguments:
         - db_loc: the location of the vectorstore to use
     Returns:
-        - vectostore: an initialized instance of the retriever
+        - vectorstore: an initialized instance of the retriever
     """
     embedding_model = HuggingFaceEmbeddings(model_name='all-mpnet-base-v2')
     vectorstore = Chroma(persist_directory=db_loc, embedding_function=embedding_model)

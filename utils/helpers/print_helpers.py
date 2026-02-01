@@ -17,11 +17,21 @@ def clean_response(response: dict | str) -> str:
         - res: the answer part of the LLM response, cleaned as needed
     """
     # **** clean up steps currently assume model is gpt-4o-mini ****
+    print(response)
     res = ""
-    if (response["answer"].content)[3:11] == "markdown":
-        res += remove_last_backtick_block(clean_markdown_ticks(response["answer"].content))
+
+    # Get the answer content - handle both string and object with .content property
+    answer = response["answer"]
+    if isinstance(answer, str):
+        answer_content = answer
     else:
-        res += response["answer"].content
+        # If it's an object with .content property, use that
+        answer_content = answer.content if hasattr(answer, 'content') else str(answer)
+
+    if answer_content[3:11] == "markdown":
+        res += remove_last_backtick_block(clean_markdown_ticks(answer_content))
+    else:
+        res += answer_content
 
     logger.info("Final response is cleaned")
 
@@ -39,7 +49,7 @@ def filter_responses_and_add_context(response: str, context: list[Document], too
     """
     # Load lightweight embedding model for filtering out LLM responses where LLM cannot help 
     filter_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-    cant_help_emb = filter_model.encode('I cannot help you with that', covert_to_tensor=True)
+    cant_help_emb = filter_model.encode('I cannot help you with that', convert_to_tensor=True)
 
     res_emb = filter_model.encode(response, convert_to_tensor=True)
     sim = cos_sim(res_emb, cant_help_emb).item()
