@@ -1,5 +1,5 @@
 [project]
-name = "fabric-ai-tool-deployment"
+name = "fabric-q-and-a-tool"
 version = "0.1.0"
 description = "Depoloyed version of FABRIC Q&A tool"
 readme = "README.md"
