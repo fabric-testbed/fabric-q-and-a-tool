@@ -1,6 +1,6 @@
 ## About this repo
 
-This repo has been forked from https://github.com/jsk04/fabric-ai-tool-deployment. This is the code that is currently being used for deployment.
+This is the code that is currently being used for deployment.
 
 ## FABRIC Q&A Tool 
 Welcome to FABRIC's Q&A tool repository! This repository contains the application files for FABRIC's production Q&A tool. Check out the tool here: https://portal.fabric-testbed.net
