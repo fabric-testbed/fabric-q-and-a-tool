@@ -63,9 +63,13 @@ CG_PROMPT=<system prompt for CG tool>
 # Logging
 LOG_DIR=<location of log directory>
 
-# Deployment 
+# Deployment
 HOST=<host-url>
 PORT=<port-number>
+
+# Remote Ollama Server (optional)
+OLLAMA_BASE_URL=https://<remote-server-host>:<port>
+OLLAMA_VERIFY_SSL=false  # set to "false" only for self-signed certs; defaults to true
 ```
 
 ### Example system prompts
@@ -81,6 +85,7 @@ PORT=<port-number>
 ### Important Notes
 - The code makes use of the sentence-transformer module to embed and compare sentences. This requires a GPU, so ensure you're running the app on GPU
 - Currently, the formatting on the responses assumes the model is gpt-4o-mini, so change the formatting accordingly when working other models
+- **Remote Ollama Server**: By default, Ollama models connect to `http://localhost:11434`. To use a remote Ollama instance over HTTPS, set `OLLAMA_BASE_URL` in your `.env`. If the remote server uses a self-signed certificate, also set `OLLAMA_VERIFY_SSL=false`
 
 ## Creating/Updating Vector Databases
 

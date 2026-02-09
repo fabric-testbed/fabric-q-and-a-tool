@@ -22,6 +22,9 @@ CG_MODEL = os.getenv('CG_MODEL')
 
 HOST = os.getenv('HOST')
 PORT = os.getenv('PORT')
+
+OLLAMA_BASE_URL = os.getenv('OLLAMA_BASE_URL')
+OLLAMA_VERIFY_SSL = os.getenv('OLLAMA_VERIFY_SSL', 'true').lower() != 'false'
 # ----------------------------------------------------------------------------------------------------- #
 # ------------------------------------------ Hyperparameters ------------------------------------------ #
 # ----------------------------------------------------------------------------------------------------- #

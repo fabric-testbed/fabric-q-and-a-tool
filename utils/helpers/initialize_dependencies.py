@@ -5,7 +5,7 @@ from langchain.chat_models import init_chat_model
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
-from config import OPEN_AI_SECRET
+from config import OPEN_AI_SECRET, OLLAMA_BASE_URL, OLLAMA_VERIFY_SSL
 from utils.logging_setup import get_logger
 
 logger = get_logger(__name__)
@@ -25,7 +25,12 @@ def initialize_model(model:str, temp: float):
                                 openai_api_key=openai_secret, temperature=temp)
     else:
         default_window = 16384
-        llm = OllamaLLM(model=model, num_ctx=default_window, temperature = temp)
+        kwargs = dict(model=model, num_ctx=default_window, temperature=temp)
+        if OLLAMA_BASE_URL:
+            kwargs['base_url'] = OLLAMA_BASE_URL
+        if not OLLAMA_VERIFY_SSL:
+            kwargs['client_kwargs'] = {'verify': False}
+        llm = OllamaLLM(**kwargs)
 
     logger.info(f"{model} successfully initialized")
 
