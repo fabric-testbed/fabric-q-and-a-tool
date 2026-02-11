@@ -35,3 +35,8 @@ cuda = [
     "torchvision",
     "torchaudio",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]

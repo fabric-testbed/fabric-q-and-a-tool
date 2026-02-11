@@ -24,6 +24,8 @@ fabric-ai-tool-deployment/
 │       ├── print_helpers.py            # format output
 │       ├── rerank_helpers.py           # help in reranking step
 │       └── validate_api_call.py        # validate API call
+├── tests/                  # Automated tests (pytest)
+│   └── test_imports.py     # Smoke tests for dependency imports
 ├── notebooks/              # Development notebooks for VectorDB creation
 │   ├── README.md           # Detailed notebook documentation
 │   ├── 01_data_preprocessing/      # Clean CSV/PDF data
@@ -81,6 +83,20 @@ OLLAMA_VERIFY_SSL=false  # set to "false" only for self-signed certs; defaults t
 # For Code Generation tool
 "You are an AI Code Assstant. Use the following pieces of context (examples) to generate python code to implement the user's question specifically for FABRIC testbed. Use FablibManager whenever possible. Make sure to include correct import statements.Generate the answer in Markdown. If the question is very different from the context provided or if the question is not related to FABRIC, simply say you cannot help. {context} Question: On FABRIC Testbed, {question} Use FablibManager as much as possible. Include import statements. Here is how you will implement that (in markdown):"
 ```
+
+### Running Tests
+
+This project includes smoke tests that verify all critical dependencies import correctly. These are useful for catching breaking changes after dependency upgrades (e.g., bumping `langchain-core` for a security patch).
+
+```bash
+# Run all tests
+uv run pytest tests/ -v
+
+# Run just the import smoke tests
+uv run pytest tests/test_imports.py -v
+```
+
+After upgrading a dependency in `pyproject.toml`, run the tests before deploying to confirm nothing broke.
 
 ### Important Notes
 - The code makes use of the sentence-transformer module to embed and compare sentences. This requires a GPU, so ensure you're running the app on GPU
