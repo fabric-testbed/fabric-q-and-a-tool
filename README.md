@@ -72,6 +72,12 @@ PORT=<port-number>
 # Remote Ollama Server (optional)
 OLLAMA_BASE_URL=https://<remote-server-host>:<port>
 OLLAMA_VERIFY_SSL=false  # set to "false" only for self-signed certs; defaults to true
+
+# RAG Pipeline (optional, defaults shown)
+RETRIEVAL_K=20          # number of documents to retrieve from vector DB before reranking
+ENABLE_RERANKING=true   # set to "false" to skip reranking (useful on CPU-only servers)
+QA_DOCS=6               # number of documents passed to LLM for Q&A tool
+CG_DOCS=4               # number of documents passed to LLM for Code Generation tool
 ```
 
 ### Example system prompts
@@ -99,7 +105,7 @@ uv run pytest tests/test_imports.py -v
 After upgrading a dependency in `pyproject.toml`, run the tests before deploying to confirm nothing broke.
 
 ### Important Notes
-- The code makes use of the sentence-transformer module to embed and compare sentences. This requires a GPU, so ensure you're running the app on GPU
+- The reranker model (`BAAI/bge-reranker-v2-m3`) performs best with a GPU. On CPU-only servers, set `ENABLE_RERANKING=false` in `.env` to skip reranking and rely solely on vector similarity search
 - Currently, the formatting on the responses assumes the model is gpt-4o-mini, so change the formatting accordingly when working other models
 - **Remote Ollama Server**: By default, Ollama models connect to `http://localhost:11434`. To use a remote Ollama instance over HTTPS, set `OLLAMA_BASE_URL` in your `.env`. If the remote server uses a self-signed certificate, also set `OLLAMA_VERIFY_SSL=false`
 

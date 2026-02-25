@@ -28,8 +28,11 @@ OLLAMA_VERIFY_SSL = os.getenv('OLLAMA_VERIFY_SSL', 'true').lower() != 'false'
 # ----------------------------------------------------------------------------------------------------- #
 # ------------------------------------------ Hyperparameters ------------------------------------------ #
 # ----------------------------------------------------------------------------------------------------- #
-QA_DOCS = 6
-CG_DOCS = 4
+QA_DOCS = int(os.getenv('QA_DOCS', '6'))
+CG_DOCS = int(os.getenv('CG_DOCS', '4'))
 
 QA_TEMP = 0.2
 CG_TEMP = 0
+
+RETRIEVAL_K = int(os.getenv('RETRIEVAL_K', '20'))
+ENABLE_RERANKING = os.getenv('ENABLE_RERANKING', 'true').lower() != 'false'

@@ -37,7 +37,8 @@ def run_rag_pipeline(
     llm,
     prompt_template: str,
     num_docs: int,
-    retrieval_k: int = 20
+    retrieval_k: int = 20,
+    enable_reranking: bool = True
 ) -> dict:
     """
     Execute the complete RAG pipeline: retrieve → rerank → generate
@@ -96,8 +97,9 @@ def run_rag_pipeline(
         Returns:
             dict with 'context' key containing retrieved documents
         """
-        retrieved_docs = vectorstore.similarity_search(state["question"], k=retrieval_k)
-        logger.info(f"{retrieval_k} documents retrieved from vectorstore")
+        k = retrieval_k if enable_reranking else num_docs
+        retrieved_docs = vectorstore.similarity_search(state["question"], k=k)
+        logger.info(f"{k} documents retrieved from vectorstore")
         return {"context": retrieved_docs}
 
     def rerank(state: State) -> dict:
@@ -148,15 +150,15 @@ def run_rag_pipeline(
         # Build LangGraph state machine
         graph_builder = StateGraph(State)
 
-        # Register nodes (retrieve and rerank stages)
+        # Register nodes and define execution flow
         graph_builder.add_node("retrieve", retrieve)
-        graph_builder.add_node("rerank", rerank)
-
-        # Define execution flow: START → retrieve → rerank
         graph_builder.add_edge(START, "retrieve")
-        graph_builder.add_edge("retrieve", "rerank")
 
-        # Compile and execute graph (retrieve + rerank)
+        if enable_reranking:
+            graph_builder.add_node("rerank", rerank)
+            graph_builder.add_edge("retrieve", "rerank")
+
+        # Compile and execute graph
         graph = graph_builder.compile()
         rag_state = graph.invoke({"question": query})
 

@@ -10,7 +10,7 @@ from utils.helpers.validate_api_call import validate_api_key, validate_api_param
 from utils.helpers.assign_params import assign_params_by_tool
 from utils.helpers.initialize_dependencies import initialize_model, initialize_retriever, initialize_tokenizer
 from utils.helpers.print_helpers import clean_response, filter_responses_and_add_context
-from config import HOST, PORT
+from config import HOST, PORT, RETRIEVAL_K, ENABLE_RERANKING
 from rag_pipeline import run_rag_pipeline
 
 app = Flask(__name__)
@@ -19,7 +19,8 @@ app = Flask(__name__)
 setup_logging(app)
 
 # Pre-load reranker model into cache so the first request isn't slow
-initialize_tokenizer()
+if ENABLE_RERANKING:
+    initialize_tokenizer()
 
 @app.route('/', methods=['POST'])
 def generate_response() -> str:
@@ -56,7 +57,8 @@ def generate_response() -> str:
         llm=llm,
         prompt_template=template,
         num_docs=num_docs,
-        retrieval_k=20
+        retrieval_k=RETRIEVAL_K,
+        enable_reranking=ENABLE_RERANKING
     )
 
     # Handle pipeline result
