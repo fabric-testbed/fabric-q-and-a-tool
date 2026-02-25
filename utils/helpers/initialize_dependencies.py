@@ -51,11 +51,19 @@ def initialize_retriever(db_loc: str):
 
     return vectorstore
 
+_tokenizer_cache = None
+
 def initialize_tokenizer():
-    # Load model and tokenizer
+    global _tokenizer_cache
+    if _tokenizer_cache is not None:
+        return _tokenizer_cache
+
+    # Load model and tokenizer (runs once, then cached)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = AutoTokenizer.from_pretrained("BAAI/bge-reranker-v2-m3")
     tokenizer_model = AutoModelForSequenceClassification.from_pretrained("BAAI/bge-reranker-v2-m3").to(device)
     tokenizer_model.eval()
 
-    return device, tokenizer, tokenizer_model
+    _tokenizer_cache = (device, tokenizer, tokenizer_model)
+    logger.info("Reranker tokenizer and model loaded and cached")
+    return _tokenizer_cache

@@ -8,15 +8,18 @@ from flask import (
 from utils.logging_setup import setup_logging
 from utils.helpers.validate_api_call import validate_api_key, validate_api_params
 from utils.helpers.assign_params import assign_params_by_tool
-from utils.helpers.initialize_dependencies import initialize_model, initialize_retriever
+from utils.helpers.initialize_dependencies import initialize_model, initialize_retriever, initialize_tokenizer
 from utils.helpers.print_helpers import clean_response, filter_responses_and_add_context
 from config import HOST, PORT
 from rag_pipeline import run_rag_pipeline
 
 app = Flask(__name__)
 
-# Set up logging 
+# Set up logging
 setup_logging(app)
+
+# Pre-load reranker model into cache so the first request isn't slow
+initialize_tokenizer()
 
 @app.route('/', methods=['POST'])
 def generate_response() -> str:
