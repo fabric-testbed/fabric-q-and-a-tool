@@ -1,3 +1,5 @@
+import utils.compat  # must precede any chromadb imports
+
 from flask import (
     Flask, request, render_template, session,
     redirect, url_for, jsonify, flash, send_file, Response
