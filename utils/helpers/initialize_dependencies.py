@@ -5,7 +5,7 @@ from langchain.chat_models import init_chat_model
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
-from config import OPEN_AI_SECRET, OLLAMA_BASE_URL, OLLAMA_VERIFY_SSL
+from config import OPEN_AI_SECRET, OLLAMA_BASE_URL, OLLAMA_VERIFY_SSL, RERANKER_MODEL
 from utils.logging_setup import get_logger
 
 logger = get_logger(__name__)
@@ -60,8 +60,8 @@ def initialize_tokenizer():
 
     # Load model and tokenizer (runs once, then cached)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    tokenizer = AutoTokenizer.from_pretrained("BAAI/bge-reranker-v2-m3")
-    tokenizer_model = AutoModelForSequenceClassification.from_pretrained("BAAI/bge-reranker-v2-m3").to(device)
+    tokenizer = AutoTokenizer.from_pretrained(RERANKER_MODEL)
+    tokenizer_model = AutoModelForSequenceClassification.from_pretrained(RERANKER_MODEL).to(device)
     tokenizer_model.eval()
 
     _tokenizer_cache = (device, tokenizer, tokenizer_model)

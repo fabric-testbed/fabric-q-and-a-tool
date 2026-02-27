@@ -36,3 +36,4 @@ CG_TEMP = 0
 
 RETRIEVAL_K = int(os.getenv('RETRIEVAL_K', '20'))
 ENABLE_RERANKING = os.getenv('ENABLE_RERANKING', 'true').lower() != 'false'
+RERANKER_MODEL = os.getenv('RERANKER_MODEL', 'BAAI/bge-reranker-v2-m3')

@@ -74,10 +74,11 @@ OLLAMA_BASE_URL=https://<remote-server-host>:<port>
 OLLAMA_VERIFY_SSL=false  # set to "false" only for self-signed certs; defaults to true
 
 # RAG Pipeline (optional, defaults shown)
-RETRIEVAL_K=20          # number of documents to retrieve from vector DB before reranking
-ENABLE_RERANKING=true   # set to "false" to skip reranking (useful on CPU-only servers)
-QA_DOCS=6               # number of documents passed to LLM for Q&A tool
-CG_DOCS=4               # number of documents passed to LLM for Code Generation tool
+RETRIEVAL_K=20                            # number of documents to retrieve from vector DB before reranking
+ENABLE_RERANKING=true                     # set to "false" to skip reranking (useful on CPU-only servers)
+RERANKER_MODEL=BAAI/bge-reranker-v2-m3   # reranker model; alternatives below
+QA_DOCS=6                                 # number of documents passed to LLM for Q&A tool
+CG_DOCS=4                                 # number of documents passed to LLM for Code Generation tool
 ```
 
 ### Example system prompts
@@ -105,7 +106,11 @@ uv run pytest tests/test_imports.py -v
 After upgrading a dependency in `pyproject.toml`, run the tests before deploying to confirm nothing broke.
 
 ### Important Notes
-- The reranker model (`BAAI/bge-reranker-v2-m3`) performs best with a GPU. On CPU-only servers, set `ENABLE_RERANKING=false` in `.env` to skip reranking and rely solely on vector similarity search
+- The reranker model performs best with a GPU. On CPU-only servers, either set `ENABLE_RERANKING=false` to skip reranking, or switch to a lighter model via `RERANKER_MODEL`. Available options:
+  - `BAAI/bge-reranker-v2-m3` — best quality, ~570M params, slow on CPU (default)
+  - `BAAI/bge-reranker-base` — multilingual, ~278M params
+  - `cross-encoder/ms-marco-MiniLM-L-6-v2` — fast, English-only, ~23M params
+  - `cross-encoder/ms-marco-MiniLM-L-2-v2` — fastest, English-only, ~7M params
 - Currently, the formatting on the responses assumes the model is gpt-4o-mini, so change the formatting accordingly when working other models
 - **Remote Ollama Server**: By default, Ollama models connect to `http://localhost:11434`. To use a remote Ollama instance over HTTPS, set `OLLAMA_BASE_URL` in your `.env`. If the remote server uses a self-signed certificate, also set `OLLAMA_VERIFY_SSL=false`
 
