@@ -212,6 +212,7 @@ __marimo__/
 # Project-specific: Data files and generated databases
 # These files are large and local-only (not version controlled)
 data/
+docs/
 
 # Additional Jupyter patterns
 *.ipynb_checkpoints
