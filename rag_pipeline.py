@@ -99,7 +99,8 @@ def run_rag_pipeline(
         """
         k = retrieval_k if enable_reranking else num_docs
         retrieved_docs = vectorstore.similarity_search(state["question"], k=k)
-        logger.info(f"{k} documents retrieved from vectorstore")
+        meta_lines = "\n".join(f"  [{i}] {doc.metadata}" for i, doc in enumerate(retrieved_docs))
+        logger.info(f"{k} documents retrieved from vectorstore:\n{meta_lines}")
         return {"context": retrieved_docs}
 
     def rerank(state: State) -> dict:
@@ -123,8 +124,19 @@ def run_rag_pipeline(
         scores = calculate_document_scores(pairs)
         reranked_docs = attach_scores_to_documents(scores, docs)
 
-        logger.info(f"Documents reranked, keeping top {num_docs}")
-        return {"context": reranked_docs[:num_docs]}
+        all_scored_lines = "\n".join(
+            f"  [{i}] score={doc.metadata.get('rerank_score', 'N/A'):.4f} | {doc.metadata}"
+            for i, doc in enumerate(reranked_docs)
+        )
+        logger.info(f"All {len(reranked_docs)} docs after reranking (sorted by score):\n{all_scored_lines}")
+
+        top_docs = reranked_docs[:num_docs]
+        top_lines = "\n".join(
+            f"  [{i}] score={doc.metadata.get('rerank_score', 'N/A'):.4f} | {doc.metadata}"
+            for i, doc in enumerate(top_docs)
+        )
+        logger.info(f"Top {num_docs} docs passed to generation:\n{top_lines}")
+        return {"context": top_docs}
 
     def generate(state: State) -> dict:
         """
@@ -143,6 +155,8 @@ def run_rag_pipeline(
         docs_content = "\n\n".join(doc.page_content for doc in state["context"])
         messages = prompt.invoke({"question": state["question"], "context": docs_content})
         response = llm.invoke(messages)
+        raw_content = response.content if hasattr(response, 'content') else str(response)
+        logger.info(f"Raw LLM response (pre-cleaning):\n{raw_content}")
         return {"answer": response}
 
     # Execute the RAG pipeline with error handling

@@ -44,10 +44,11 @@ def initialize_retriever(db_loc: str):
     Returns:
         - vectorstore: an initialized instance of the retriever
     """
-    embedding_model = HuggingFaceEmbeddings(model_name='all-mpnet-base-v2')
+    embedding_model_name = 'all-mpnet-base-v2'
+    embedding_model = HuggingFaceEmbeddings(model_name=embedding_model_name)
     vectorstore = Chroma(persist_directory=db_loc, embedding_function=embedding_model)
 
-    logger.info(f"Retriever initialized with {db_loc}")
+    logger.info(f"Retriever initialized: embedding_model={embedding_model_name}, db_loc={db_loc}")
 
     return vectorstore
 
@@ -65,5 +66,5 @@ def initialize_tokenizer():
     tokenizer_model.eval()
 
     _tokenizer_cache = (device, tokenizer, tokenizer_model)
-    logger.info("Reranker tokenizer and model loaded and cached")
+    logger.info(f"Reranker loaded and cached: model={RERANKER_MODEL}, device={device}")
     return _tokenizer_cache

@@ -17,7 +17,6 @@ def clean_response(response: dict | str) -> str:
         - res: the answer part of the LLM response, cleaned as needed
     """
     # **** clean up steps currently assume model is gpt-4o-mini ****
-    print(response)
     res = ""
 
     # Get the answer content - handle both string and object with .content property
@@ -57,10 +56,11 @@ def filter_responses_and_add_context(response: str, context: list[Document], too
      # If similarity is low, we assume LLM could help the user
     if sim < 0.70:
         # Only add the context for FABRIC questions
+        context_sources = [doc.metadata.get('title', doc.metadata.get('source', 'unknown')) for doc in context]
+        logger.info(f"Context appended to response ({len(context)} sources): {context_sources}")
         response += print_context_list(context, tool_type=tool_type)
-        logger.info(f"Context added to final response")
     else:
-        logger.info(f"Since similarity score is above the threshold, we can conclude that LLM cannot help the user with this query")
+        logger.info(f"Similarity score {sim:.4f} >= 0.70 threshold; LLM cannot help, no context appended")
     
     return response
 

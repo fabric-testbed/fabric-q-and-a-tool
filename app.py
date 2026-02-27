@@ -43,8 +43,13 @@ def generate_response() -> str:
     tool_type = data.get('tool_type')
     query, tool_type = validate_api_params(query, tool_type)
 
-    # Assign hyperparameters based on tool type 
+    # Assign hyperparameters based on tool type
     model, db_loc, template, num_docs, temp = assign_params_by_tool(tool_type)
+    app.logger.info(
+        f"Request received: tool_type={tool_type!r}, model={model}, "
+        f"num_docs={num_docs}, temp={temp}, retrieval_k={RETRIEVAL_K}, "
+        f"enable_reranking={ENABLE_RERANKING}, query={query!r}"
+    )
 
     # Intialize vectorstore and LLM
     vectorstore = initialize_retriever(db_loc)
